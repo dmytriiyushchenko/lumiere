@@ -1,0 +1,22 @@
+# === Xcode ===
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# === macOS ===
+.DS_Store
+
+# === Swift Package Manager ===
+.build/
+.swiftpm/
+
+# === Залежності (на майбутнє) ===
+Pods/
+Carthage/Build/
+
+# === Секрети: TMDB-ключ НЕ комітимо в публічний репозиторій! ===
+Secrets.xcconfig
+*.env
