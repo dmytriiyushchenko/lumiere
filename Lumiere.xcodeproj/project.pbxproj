@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		157C4AE32FEC2884004D7D59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 158A10382FD0EE160099D4C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 158A103F2FD0EE160099D4C6;
+			remoteInfo = Lumiere;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		157C4ADF2FEC2884004D7D59 /* LumiereTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumiereTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		158A10402FD0EE160099D4C6 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		157C4AE02FEC2884004D7D59 /* LumiereTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LumiereTests;
+			sourceTree = "<group>";
+		};
 		158A10422FD0EE160099D4C6 /* Lumiere */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Lumiere;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		157C4ADC2FEC2884004D7D59 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		158A103D2FD0EE160099D4C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				158A10422FD0EE160099D4C6 /* Lumiere */,
+				157C4AE02FEC2884004D7D59 /* LumiereTests */,
 				158A10412FD0EE160099D4C6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				158A10402FD0EE160099D4C6 /* Lumiere.app */,
+				157C4ADF2FEC2884004D7D59 /* LumiereTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		157C4ADE2FEC2884004D7D59 /* LumiereTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 157C4AE52FEC2884004D7D59 /* Build configuration list for PBXNativeTarget "LumiereTests" */;
+			buildPhases = (
+				157C4ADB2FEC2884004D7D59 /* Sources */,
+				157C4ADC2FEC2884004D7D59 /* Frameworks */,
+				157C4ADD2FEC2884004D7D59 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				157C4AE42FEC2884004D7D59 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				157C4AE02FEC2884004D7D59 /* LumiereTests */,
+			);
+			name = LumiereTests;
+			packageProductDependencies = (
+			);
+			productName = LumiereTests;
+			productReference = 157C4ADF2FEC2884004D7D59 /* LumiereTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		158A103F2FD0EE160099D4C6 /* Lumiere */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 158A104D2FD0EE180099D4C6 /* Build configuration list for PBXNativeTarget "Lumiere" */;
@@ -80,6 +128,10 @@
 				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					157C4ADE2FEC2884004D7D59 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 158A103F2FD0EE160099D4C6;
+					};
 					158A103F2FD0EE160099D4C6 = {
 						CreatedOnToolsVersion = 26.4;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				158A103F2FD0EE160099D4C6 /* Lumiere */,
+				157C4ADE2FEC2884004D7D59 /* LumiereTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		157C4ADD2FEC2884004D7D59 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		158A103E2FD0EE160099D4C6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		157C4ADB2FEC2884004D7D59 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		158A103C2FD0EE160099D4C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		157C4AE42FEC2884004D7D59 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 158A103F2FD0EE160099D4C6 /* Lumiere */;
+			targetProxy = 157C4AE32FEC2884004D7D59 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		157C4AE62FEC2884004D7D59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S7AHC7F623;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmytrii.LumiereTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumiere.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Lumiere";
+			};
+			name = Debug;
+		};
+		157C4AE72FEC2884004D7D59 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S7AHC7F623;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmytrii.LumiereTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumiere.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Lumiere";
+			};
+			name = Release;
+		};
 		158A104B2FD0EE180099D4C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -313,6 +430,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		157C4AE52FEC2884004D7D59 /* Build configuration list for PBXNativeTarget "LumiereTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				157C4AE62FEC2884004D7D59 /* Debug */,
+				157C4AE72FEC2884004D7D59 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		158A103B2FD0EE160099D4C6 /* Build configuration list for PBXProject "Lumiere" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
