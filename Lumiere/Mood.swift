@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Mood {
+enum Mood: CaseIterable {
     case cozy
     case mindBending
     case feelGood
