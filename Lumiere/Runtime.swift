@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Runtime {
+enum Runtime: CaseIterable {
     case short
     case medium
     case long
