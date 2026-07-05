@@ -19,32 +19,22 @@ struct PickerView: View {
                 .bold()
             ForEach(Mood.allCases, id: \.self) {
                 mood in
-                Button {
-                    selectedMood = mood
-                } label: {
-                    Label(mood.title, systemImage: mood.icon)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(selectedMood == mood ? Color.accentColor : Color.gray.opacity(0.2))
-                        .foregroundStyle(selectedMood == mood ? .white : .primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
+                OptionButton(
+                    title: mood.title,
+                    icon: mood.icon,
+                    isSelected: selectedMood == mood,
+                    action: { selectedMood = mood } )
             }
             Text("How much time?")
                 .font(.title)
                 .bold()
             ForEach(Runtime.allCases, id: \.self) {
                 runtime in
-                Button {
-                    selectedRuntime = runtime
-                } label: {
-                    Label(runtime.title, systemImage: runtime.icon)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(selectedRuntime == runtime ? Color.accentColor : Color.gray.opacity(0.2))
-                        .foregroundStyle(selectedRuntime == runtime ? .white : .primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
+                OptionButton(
+                    title: runtime.title,
+                    icon: runtime.icon,
+                    isSelected: selectedRuntime == runtime,
+                    action: { selectedRuntime = runtime } )
             }
         }
     }
