@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		15C389E02FFC552A007C7EE6 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		157C4AE32FEC2884004D7D59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,7 +23,18 @@
 /* Begin PBXFileReference section */
 		157C4ADF2FEC2884004D7D59 /* LumiereTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumiereTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		158A10402FD0EE160099D4C6 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		15C389E22FFC5802007C7EE6 /* Exceptions for "Lumiere" folder in "Lumiere" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 158A103F2FD0EE160099D4C6 /* Lumiere */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		157C4AE02FEC2884004D7D59 /* LumiereTests */ = {
@@ -29,6 +44,9 @@
 		};
 		158A10422FD0EE160099D4C6 /* Lumiere */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				15C389E22FFC5802007C7EE6 /* Exceptions for "Lumiere" folder in "Lumiere" target */,
+			);
 			path = Lumiere;
 			sourceTree = "<group>";
 		};
@@ -55,6 +73,7 @@
 		158A10372FD0EE160099D4C6 = {
 			isa = PBXGroup;
 			children = (
+				15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */,
 				158A10422FD0EE160099D4C6 /* Lumiere */,
 				157C4AE02FEC2884004D7D59 /* LumiereTests */,
 				158A10412FD0EE160099D4C6 /* Products */,
@@ -169,6 +188,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C389E02FFC552A007C7EE6 /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +264,7 @@
 		};
 		158A104B2FD0EE180099D4C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -308,6 +329,7 @@
 		};
 		158A104C2FD0EE180099D4C6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -373,6 +395,8 @@
 				DEVELOPMENT_TEAM = S7AHC7F623;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lumiere/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -405,6 +429,8 @@
 				DEVELOPMENT_TEAM = S7AHC7F623;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lumiere/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
