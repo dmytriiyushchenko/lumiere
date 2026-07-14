@@ -11,30 +11,47 @@ struct PickerView: View {
     
     @State private var selectedMood: Mood?
     @State private var selectedRuntime: Runtime?
+    @State private var genreVM = GenreViewModel()
     
     var body : some View {
-        VStack(spacing: 16) {
-            Text("What's the mood?")
-                .font(.title)
-                .bold()
-            ForEach(Mood.allCases, id: \.self) {
-                mood in
-                OptionButton(
-                    title: mood.title,
-                    icon: mood.icon,
-                    isSelected: selectedMood == mood,
-                    action: { selectedMood = mood } )
+        ScrollView {
+            VStack(spacing: 16) {
+                Text("What's the mood?")
+                    .font(.title)
+                    .bold()
+                ForEach(Mood.allCases, id: \.self) {
+                    mood in
+                    OptionButton(
+                        title: mood.title,
+                        icon: mood.icon,
+                        isSelected: selectedMood == mood,
+                        action: { selectedMood = mood } )
+                }
+                Text("How much time?")
+                    .font(.title)
+                    .bold()
+                ForEach(Runtime.allCases, id: \.self) {
+                    runtime in
+                    OptionButton(
+                        title: runtime.title,
+                        icon: runtime.icon,
+                        isSelected: selectedRuntime == runtime,
+                        action: { selectedRuntime = runtime } )
+                }
+                Text("What genre?")
+                    .font(.title)
+                    .bold()
+                ForEach(genreVM.genres, id: \.id) {
+                    genre in
+                    OptionButton(
+                        title: genre.name,
+                        icon: "film",
+                        isSelected: false,
+                        action: { } )
+                }
             }
-            Text("How much time?")
-                .font(.title)
-                .bold()
-            ForEach(Runtime.allCases, id: \.self) {
-                runtime in
-                OptionButton(
-                    title: runtime.title,
-                    icon: runtime.icon,
-                    isSelected: selectedRuntime == runtime,
-                    action: { selectedRuntime = runtime } )
+            .task {
+                await genreVM.loadGenres()
             }
         }
     }

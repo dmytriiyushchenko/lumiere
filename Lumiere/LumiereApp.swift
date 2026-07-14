@@ -25,7 +25,7 @@ struct LumiereApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PickerView()
         }
         .modelContainer(sharedModelContainer)
     }
