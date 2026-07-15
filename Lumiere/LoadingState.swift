@@ -10,6 +10,6 @@ import Foundation
 enum LoadingState {
     case idle
     case loading
-    case loaded([Movie])
+    case loaded
     case error(String)
 }

@@ -12,6 +12,7 @@ struct PickerView: View {
     @State private var selectedMood: Mood?
     @State private var selectedRuntime: Runtime?
     @State private var genreVM = GenreViewModel()
+    @State private var selectedGenre: Genre?
     
     var body : some View {
         ScrollView {
@@ -41,18 +42,26 @@ struct PickerView: View {
                 Text("What genre?")
                     .font(.title)
                     .bold()
-                ForEach(genreVM.genres, id: \.id) {
-                    genre in
-                    OptionButton(
-                        title: genre.name,
-                        icon: "film",
-                        isSelected: false,
-                        action: { } )
+                switch genreVM.state {
+                case .idle, .loading:
+                    ProgressView()
+                case .loaded:
+                    ForEach(genreVM.genres, id: \.id) {
+                        genre in
+                        OptionButton(
+                            title: genre.name,
+                            icon: "film",
+                            isSelected: selectedGenre == genre,
+                            action: { selectedGenre = genre } )
+                    }
+                case .error(let message):
+                    Text(message)
+                        .foregroundStyle(.red)
                 }
             }
-            .task {
-                await genreVM.loadGenres()
-            }
+        }
+        .task {
+            await genreVM.loadGenres()
         }
     }
 }
