@@ -14,9 +14,9 @@ enum Runtime: CaseIterable {
     
     var title: String {
         switch self {
-        case .short: "Short"
-        case .medium: "Medium"
-        case .long: "Long"
+        case .short: "До 1,5 години"
+        case .medium: "До 2 годин"
+        case .long: "Будь-яка"
         }
     }
     
@@ -25,6 +25,13 @@ enum Runtime: CaseIterable {
         case .short: "hare.fill"
         case .medium: "clock.fill"
         case .long: "tortoise.fill"
+        }
+    }
+    var maxMinutes: Int? {
+        switch self {
+        case .short: 90
+        case .medium: 120
+        case .long: nil
         }
     }
 }
