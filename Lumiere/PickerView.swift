@@ -13,6 +13,7 @@ struct PickerView: View {
     @State private var selectedRuntime: Runtime?
     @State private var genreVM = GenreViewModel()
     @State private var selectedGenre: Genre?
+    @State private var suggestionVM = SuggestionViewModel()
     
     var body : some View {
         ScrollView {
@@ -58,6 +59,13 @@ struct PickerView: View {
                     Text(message)
                         .foregroundStyle(.red)
                 }
+                Button("Select film") {
+                    Task {
+                        await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
+                    }
+                }
+                Text("Знайдено фільмів: \(suggestionVM.movies.count)")
+                Text("Перший: \(suggestionVM.movies.first?.title ?? "—")")
             }
         }
         .task {
