@@ -10,6 +10,17 @@ import Foundation
 @Observable
 class SuggestionViewModel {
     var movies: [Movie] = []
+    
+    var currentIndex = 0
+    func showNext() {
+        currentIndex += 1
+    }
+    
+    var currentMovie: Movie? {
+        movies.indices.contains(currentIndex) ? movies[currentIndex] : nil 
+    }
+    
+    
     var state: LoadingState = .idle
     private let client: APIClient
     
@@ -31,6 +42,7 @@ class SuggestionViewModel {
         do {
             let response: MovieResponse = try await client.fetch(from: url)
             movies = response.results
+            currentIndex = 0 
             state = .loaded
         } catch {
             state = .error(error.localizedDescription)
