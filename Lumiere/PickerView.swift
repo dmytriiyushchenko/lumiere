@@ -64,12 +64,16 @@ struct PickerView: View {
                         await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
                     }
                 }
-                if let movie = suggestionVM.movies.first {
+                if let movie = suggestionVM.currentMovie {
                     VStack {
                             AsyncImage(url: movie.posterURL)
                             Text(movie.title)
                             Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
                         }
+                    Button("Інший фільм") {
+                        suggestionVM.showNext()
+                    }
+                    
                 }
             }
         }
