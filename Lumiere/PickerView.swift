@@ -64,8 +64,13 @@ struct PickerView: View {
                         await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
                     }
                 }
-                Text("Знайдено фільмів: \(suggestionVM.movies.count)")
-                Text("Перший: \(suggestionVM.movies.first?.title ?? "—")")
+                if let movie = suggestionVM.movies.first {
+                    VStack {
+                            AsyncImage(url: movie.posterURL)
+                            Text(movie.title)
+                            Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
+                        }
+                }
             }
         }
         .task {
