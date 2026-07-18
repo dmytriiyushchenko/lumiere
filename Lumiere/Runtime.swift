@@ -14,9 +14,9 @@ enum Runtime: CaseIterable {
     
     var title: String {
         switch self {
-        case .short: "До 1,5 години"
-        case .medium: "До 2 годин"
-        case .long: "Будь-яка"
+        case .short: "Under 1.5h"
+        case .medium: "Under 2h"
+        case .long: "Any"
         }
     }
     

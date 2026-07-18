@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PickerView: View {
     
+    @Environment(\.modelContext) private var modelContext
     @State private var selectedMood: Mood?
     @State private var selectedRuntime: Runtime?
     @State private var genreVM = GenreViewModel()
@@ -66,19 +68,22 @@ struct PickerView: View {
                 }
                 if let movie = suggestionVM.currentMovie {
                     VStack {
-                            AsyncImage(url: movie.posterURL)
-                            Text(movie.title)
-                            Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
-                        }
-                    Button("Інший фільм") {
+                        AsyncImage(url: movie.posterURL)
+                        Text(movie.title)
+                        Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
+                    }
+                    Button("Another one") {
                         suggestionVM.showNext()
                     }
-                    
+                    Button("Save") {
+                        let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
+                        modelContext.insert(saved)
+                    }
                 }
             }
-        }
-        .task {
-            await genreVM.loadGenres()
+            .task {
+                await genreVM.loadGenres()
+            }
         }
     }
 }
