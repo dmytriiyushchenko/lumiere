@@ -14,10 +14,18 @@ class SuggestionViewModel {
     var currentIndex = 0
     func showNext() {
         currentIndex += 1
+        if currentIndex >= movies.count - 3 {
+            Task { await loadNextPage() }
+        }
     }
     
+    var currentPage = 1
+    private var genreID: Int?
+    private var maxMinutes: Int?
+    
+    
     var currentMovie: Movie? {
-        movies.indices.contains(currentIndex) ? movies[currentIndex] : nil 
+        movies.indices.contains(currentIndex) ? movies[currentIndex] : nil
     }
     
     
@@ -27,7 +35,24 @@ class SuggestionViewModel {
     init (client: APIClient = TMDBClient()) {
         self.client = client
     }
-    func loadMovies(genreID:Int?, maxMinutes:Int?) async {
+    func loadMovies(genreID: Int?, maxMinutes: Int?) async {
+        self.genreID = genreID
+        self.maxMinutes = maxMinutes
+        currentPage = 1
+        currentIndex = 0
+        movies = []
+        await fetchPage()
+    }
+    private var isLoadingNextPage = false
+
+    func loadNextPage() async {
+        guard !isLoadingNextPage else { return }  
+        isLoadingNextPage = true
+        currentPage += 1
+        await fetchPage()
+        isLoadingNextPage = false
+    }
+    private func fetchPage() async {
         state = .loading
         var components = URLComponents(string:"https://api.themoviedb.org/3/discover/movie")!
         var queryItems: [URLQueryItem] = []
@@ -37,12 +62,12 @@ class SuggestionViewModel {
         if let maxMinutes = maxMinutes {
             queryItems.append(URLQueryItem(name: "with_runtime.lte", value: "\(maxMinutes)"))
         }
+        queryItems.append(URLQueryItem(name: "page", value: "\(currentPage)"))
         components.queryItems = queryItems
         let url = components.url!
         do {
             let response: MovieResponse = try await client.fetch(from: url)
-            movies = response.results
-            currentIndex = 0 
+            movies += response.results
             state = .loaded
         } catch {
             state = .error(error.localizedDescription)
