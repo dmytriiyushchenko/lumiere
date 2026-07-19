@@ -16,6 +16,7 @@ struct PickerView: View {
     @State private var genreVM = GenreViewModel()
     @State private var selectedGenre: Genre?
     @State private var suggestionVM = SuggestionViewModel()
+    @Query private var savedMovies: [SavedMovie]
     
     var body : some View {
         ScrollView {
@@ -76,6 +77,10 @@ struct PickerView: View {
                         suggestionVM.showNext()
                     }
                     Button("Save") {
+                        let alreadySaved = savedMovies.contains(where: { $0.id == movie.id })
+                        
+                        guard !alreadySaved else { return }
+                        
                         let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
                         modelContext.insert(saved)
                     }
