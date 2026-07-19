@@ -19,75 +19,83 @@ struct PickerView: View {
     @Query private var savedMovies: [SavedMovie]
     
     var body : some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                Text("What's the mood?")
-                    .font(.title)
-                    .bold()
-                ForEach(Mood.allCases, id: \.self) {
-                    mood in
-                    OptionButton(
-                        title: mood.title,
-                        icon: mood.icon,
-                        isSelected: selectedMood == mood,
-                        action: { selectedMood = mood } )
-                }
-                Text("How much time?")
-                    .font(.title)
-                    .bold()
-                ForEach(Runtime.allCases, id: \.self) {
-                    runtime in
-                    OptionButton(
-                        title: runtime.title,
-                        icon: runtime.icon,
-                        isSelected: selectedRuntime == runtime,
-                        action: { selectedRuntime = runtime } )
-                }
-                Text("What genre?")
-                    .font(.title)
-                    .bold()
-                switch genreVM.state {
-                case .idle, .loading:
-                    ProgressView()
-                case .loaded:
-                    ForEach(genreVM.genres, id: \.id) {
-                        genre in
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    Text("What's the mood?")
+                        .font(.title)
+                        .bold()
+                    ForEach(Mood.allCases, id: \.self) {
+                        mood in
                         OptionButton(
-                            title: genre.name,
-                            icon: "film",
-                            isSelected: selectedGenre == genre,
-                            action: { selectedGenre = genre } )
+                            title: mood.title,
+                            icon: mood.icon,
+                            isSelected: selectedMood == mood,
+                            action: { selectedMood = mood } )
                     }
-                case .error(let message):
-                    Text(message)
-                        .foregroundStyle(.red)
+                    Text("How much time?")
+                        .font(.title)
+                        .bold()
+                    ForEach(Runtime.allCases, id: \.self) {
+                        runtime in
+                        OptionButton(
+                            title: runtime.title,
+                            icon: runtime.icon,
+                            isSelected: selectedRuntime == runtime,
+                            action: { selectedRuntime = runtime } )
+                    }
+                    Text("What genre?")
+                        .font(.title)
+                        .bold()
+                    switch genreVM.state {
+                    case .idle, .loading:
+                        ProgressView()
+                    case .loaded:
+                        ForEach(genreVM.genres, id: \.id) {
+                            genre in
+                            OptionButton(
+                                title: genre.name,
+                                icon: "film",
+                                isSelected: selectedGenre == genre,
+                                action: { selectedGenre = genre } )
+                        }
+                    case .error(let message):
+                        Text(message)
+                            .foregroundStyle(.red)
+                    }
+                    Button("Select film") {
+                        Task {
+                            await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
+                        }
+                    }
+                    if let movie = suggestionVM.currentMovie {
+                        NavigationLink(value: movie) {
+                            VStack {
+                                AsyncImage(url: movie.posterURL)
+                                Text(movie.title)
+                                Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
+                            }
+                        }
+                        Button("Another one") {
+                            suggestionVM.showNext()
+                        }
+                        Button("Save") {
+                            let alreadySaved = savedMovies.contains(where: { $0.id == movie.id })
+                            
+                            guard !alreadySaved else { return }
+                            
+                            let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
+                            modelContext.insert(saved)
+                        }
+                    }
                 }
-                Button("Select film") {
-                    Task {
-                        await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
-                    }
+                .navigationDestination(for: Movie.self) { movie in
+                    DetailView(movie: movie)
                 }
-                if let movie = suggestionVM.currentMovie {
-                    VStack {
-                        AsyncImage(url: movie.posterURL)
-                        Text(movie.title)
-                        Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
-                    }
-                    Button("Another one") {
-                        suggestionVM.showNext()
-                    }
-                    Button("Save") {
-                        let alreadySaved = savedMovies.contains(where: { $0.id == movie.id })
-                        
-                        guard !alreadySaved else { return }
-                        
-                        let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
-                        modelContext.insert(saved)
-                    }
+                .task {
+                    await genreVM.loadGenres()
+                    
                 }
-            }
-            .task {
-                await genreVM.loadGenres()
             }
         }
     }
