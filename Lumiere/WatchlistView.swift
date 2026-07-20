@@ -15,15 +15,20 @@ struct WatchlistView: View {
 
     
     var body: some View {
-        List {
-            ForEach(savedMovies) { movie in
-                Text(movie.title)
-            }
-            .onDelete { indexSet in
-                for index in indexSet {
-                    modelContext.delete(savedMovies[index])
+        NavigationStack {
+            List {
+                ForEach(savedMovies) { movie in
+                    NavigationLink(value: movie.id) {
+                        Text(movie.title)
+                    }
+                }
+                .onDelete { indexSet in
+                    for index in indexSet {
+                        modelContext.delete(savedMovies[index])
+                    }
                 }
             }
+            .navigationDestination(for: Int.self) { id in DetailView(movieID: id) }
         }
     }
 }
