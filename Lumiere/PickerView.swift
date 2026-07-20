@@ -69,7 +69,7 @@ struct PickerView: View {
                         }
                     }
                     if let movie = suggestionVM.currentMovie {
-                        NavigationLink(value: movie) {
+                        NavigationLink(value: movie.id) {
                             VStack {
                                 AsyncImage(url: movie.posterURL)
                                 Text(movie.title)
@@ -89,8 +89,8 @@ struct PickerView: View {
                         }
                     }
                 }
-                .navigationDestination(for: Movie.self) { movie in
-                    DetailView(movie: movie)
+                .navigationDestination(for: Int.self) { id in  
+                    DetailView(movieID: id)
                 }
                 .task {
                     await genreVM.loadGenres()
