@@ -6,17 +6,29 @@
 //
 
 import SwiftUI
+import YouTubePlayerKit
 
 struct DetailView: View {
+    @State private var detailVM = DetailViewModel()
+    
     let movie: Movie
     
     var body: some View {
-        VStack {
-            AsyncImage(url: movie.posterURL)
-            Text(movie.title)
-            Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
-            Text(movie.overview)
-                .padding()
+        ScrollView {
+            VStack {
+                AsyncImage(url: movie.posterURL)
+                Text(movie.title)
+                Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
+                Text(movie.overview)
+                    .padding()
+                if let key = detailVM.trailerKey {
+                    YouTubePlayerView(YouTubePlayer(source: .video(id: key)))
+                        .frame(height: 220)
+                }
+            }
+            .task {
+                await detailVM.loadTrailer(movieID: movie.id)
+            }
         }
     }
 }
