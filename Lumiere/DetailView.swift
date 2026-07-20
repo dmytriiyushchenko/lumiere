@@ -24,6 +24,8 @@ struct DetailView: View {
                 if let key = detailVM.trailerKey {
                     YouTubePlayerView(YouTubePlayer(source: .video(id: key)))
                         .frame(height: 220)
+                    Link("Watch on YouTube",
+                         destination: URL(string: "https://www.youtube.com/watch?v=\(key)")!)
                 }
             }
             .task {
