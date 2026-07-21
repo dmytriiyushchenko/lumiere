@@ -22,6 +22,7 @@ class SuggestionViewModel {
     var currentPage = 1
     private var genreID: Int?
     private var maxMinutes: Int?
+    private var seenIDs: [Int] = []
     
     
     var currentMovie: Movie? {
@@ -35,9 +36,10 @@ class SuggestionViewModel {
     init (client: APIClient = TMDBClient()) {
         self.client = client
     }
-    func loadMovies(genreID: Int?, maxMinutes: Int?) async {
+    func loadMovies(genreID: Int?, maxMinutes: Int?, seenIDs:[Int]) async {
         self.genreID = genreID
         self.maxMinutes = maxMinutes
+        self.seenIDs = seenIDs
         currentPage = 1
         currentIndex = 0
         movies = []
@@ -67,7 +69,7 @@ class SuggestionViewModel {
         let url = components.url!
         do {
             let response: MovieResponse = try await client.fetch(from: url)
-            movies += response.results
+            movies += response.results.filter { !seenIDs.contains($0.id) }
             state = .loaded
         } catch {
             state = .error(error.localizedDescription)
