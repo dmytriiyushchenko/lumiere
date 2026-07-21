@@ -13,6 +13,7 @@ struct LumiereApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             SavedMovie.self,
+            SeenMovie.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +26,7 @@ struct LumiereApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {                                              // ← контейнер вкладок
+            TabView {                                            
                 PickerView()
                     .tabItem { Label("Discover", systemImage: "film") }
                 WatchlistView()

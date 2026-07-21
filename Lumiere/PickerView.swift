@@ -17,6 +17,7 @@ struct PickerView: View {
     @State private var selectedGenre: Genre?
     @State private var suggestionVM = SuggestionViewModel()
     @Query private var savedMovies: [SavedMovie]
+    @Query private var seenMovie: [SeenMovie]
     
     var body : some View {
         NavigationStack {
@@ -65,7 +66,7 @@ struct PickerView: View {
                     }
                     Button("Select film") {
                         Task {
-                            await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes)
+                            await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes, seenIDs:seenMovie.map { $0.id} )
                         }
                     }
                     if let movie = suggestionVM.currentMovie {
@@ -77,6 +78,7 @@ struct PickerView: View {
                             }
                         }
                         Button("Another one") {
+                            modelContext.insert(SeenMovie(id: movie.id))
                             suggestionVM.showNext()
                         }
                         Button("Save") {
@@ -86,6 +88,8 @@ struct PickerView: View {
                             
                             let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
                             modelContext.insert(saved)
+                            modelContext.insert(SeenMovie(id: movie.id))
+                
                         }
                     }
                 }
