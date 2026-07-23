@@ -8,86 +8,45 @@
 import SwiftUI
 import SwiftData
 
+
+enum PickStep: Hashable {
+    case genre
+    case result
+}
+
 struct PickerView: View {
-    
-    @Environment(\.modelContext) private var modelContext
+    @State private var path = NavigationPath()
     @State private var selectedRuntime: Runtime?
-    @State private var genreVM = GenreViewModel()
     @State private var selectedGenre: Genre?
     @State private var suggestionVM = SuggestionViewModel()
-    @Query private var savedMovies: [SavedMovie]
     @Query private var seenMovie: [SeenMovie]
-    
-    var body : some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    Text("How much time?")
-                        .font(.title)
-                        .bold()
-                    ForEach(Runtime.allCases, id: \.self) {
-                        runtime in
-                        OptionButton(
-                            title: runtime.title,
-                            icon: runtime.icon,
-                            isSelected: selectedRuntime == runtime,
-                            action: { selectedRuntime = runtime } )
-                    }
-                    Text("What genre?")
-                        .font(.title)
-                        .bold()
-                    switch genreVM.state {
-                    case .idle, .loading:
-                        ProgressView()
-                    case .loaded:
-                        ForEach(genreVM.genres, id: \.id) {
-                            genre in
-                            OptionButton(
-                                title: genre.name,
-                                icon: "film",
-                                isSelected: selectedGenre == genre,
-                                action: { selectedGenre = genre } )
-                        }
-                    case .error(let message):
-                        Text(message)
-                            .foregroundStyle(.red)
-                    }
-                    Button("Select film") {
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            TimeStepView(onSelect: { runtime in
+                selectedRuntime = runtime
+                path.append(PickStep.genre)
+            })
+            .navigationDestination(for: PickStep.self) { step in
+                switch step {
+                case .genre:
+                    GenreStepView(onSelect: { genre in
+                        selectedGenre = genre
                         Task {
-                            await suggestionVM.loadMovies(genreID: selectedGenre?.id, maxMinutes: selectedRuntime?.maxMinutes, seenIDs:seenMovie.map { $0.id} )
+                            await suggestionVM.loadMovies(
+                                genreID: genre.id,
+                                maxMinutes: selectedRuntime?.maxMinutes,
+                                seenIDs: seenMovie.map { $0.id }
+                            )
                         }
-                    }
-                    if let movie = suggestionVM.currentMovie {
-                        NavigationLink(value: movie.id) {
-                            VStack {
-                                AsyncImage(url: movie.posterURL)
-                                Text(movie.title)
-                                Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
-                            }
-                        }
-                        Button("Another one") {
-                            modelContext.insert(SeenMovie(id: movie.id))
-                            suggestionVM.showNext()
-                        }
-                        Button("Save") {
-                            let alreadySaved = savedMovies.contains(where: { $0.id == movie.id })
-                            
-                            guard !alreadySaved else { return }
-                            
-                            let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
-                            modelContext.insert(saved)
-                            modelContext.insert(SeenMovie(id: movie.id))
-                
-                        }
-                    }
+                        path.append(PickStep.result)
+                    })
+                case .result:
+                    ResultView(suggestionVM: suggestionVM)
                 }
-                .navigationDestination(for: Int.self) { id in  
-                    DetailView(movieID: id)
-                }
-                .task {
-                    await genreVM.loadGenres()
-                    
-                }
+            }
+            .navigationDestination(for: Int.self) { id in   
+                DetailView(movieID: id)
             }
         }
     }
