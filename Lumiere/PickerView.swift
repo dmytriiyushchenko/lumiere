@@ -11,7 +11,6 @@ import SwiftData
 struct PickerView: View {
     
     @Environment(\.modelContext) private var modelContext
-    @State private var selectedMood: Mood?
     @State private var selectedRuntime: Runtime?
     @State private var genreVM = GenreViewModel()
     @State private var selectedGenre: Genre?
@@ -23,17 +22,6 @@ struct PickerView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    Text("What's the mood?")
-                        .font(.title)
-                        .bold()
-                    ForEach(Mood.allCases, id: \.self) {
-                        mood in
-                        OptionButton(
-                            title: mood.title,
-                            icon: mood.icon,
-                            isSelected: selectedMood == mood,
-                            action: { selectedMood = mood } )
-                    }
                     Text("How much time?")
                         .font(.title)
                         .bold()
