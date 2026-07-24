@@ -18,8 +18,7 @@ struct SplashView: View {
                     .scaledToFit()
                     .frame(width: 450)
                 Text("Lumière")
-                    .font(.largeTitle)
-                    .bold()
+                    .font(.custom("PermanentMarker-Regular", size: 52))
                     .foregroundStyle(Color.lumiereInk)
             }
         }
