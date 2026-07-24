@@ -26,12 +26,7 @@ struct LumiereApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {                                            
-                PickerView()
-                    .tabItem { Label("Discover", systemImage: "film") }
-                WatchlistView()
-                    .tabItem { Label("Watchlist", systemImage: "bookmark") }
-            }
+            RootView()
         }
         .modelContainer(sharedModelContainer)
     }
