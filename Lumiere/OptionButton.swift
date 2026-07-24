@@ -21,9 +21,13 @@ struct OptionButton: View {
                 Label(title, systemImage: icon)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(isSelected ? Color.accentColor : Color.gray.opacity(0.2))
-                    .foregroundStyle(isSelected ? .white : .primary)
+                    .background(isSelected ? Color.lumiereCoral : Color.lumiereCream)
+                    .foregroundStyle(isSelected ? Color.lumiereCream : Color.lumiereInk)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.lumiereInk, lineWidth: 3)
+                    )
             }
     }
 }
