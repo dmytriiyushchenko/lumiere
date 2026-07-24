@@ -22,7 +22,7 @@ struct GenreStepView: View {
                         .foregroundStyle(Color.lumiereInk)
                     switch genreVM.state {
                     case .idle, .loading:
-                        CraneStateView(imageName: "crane-fly-nobg", message: "Finding genres…", animated: true)
+                        ProgressView()
                     case .loaded:
                         ForEach(genreVM.genres, id: \.id) { genre in
                             OptionButton(

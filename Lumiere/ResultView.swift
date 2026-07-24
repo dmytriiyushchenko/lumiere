@@ -66,7 +66,7 @@ struct ResultView: View {
                         }
                         .buttonStyle(.plain)
                     } else {
-                        CraneStateView(imageName: "crane-fly-nobg", message: "Finding your film…", animated: true)
+                        ProgressView()
                     }
                 }
                 .padding(.horizontal, 24)
