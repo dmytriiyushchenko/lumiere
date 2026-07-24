@@ -4,5 +4,10 @@
 <dict>
 	<key>TMDB_TOKEN</key>
 	<string>$(TMDB_TOKEN)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PermanentMarker-Regular.ttf</string>
+		<string>PatrickHand-Regular.ttf</string>
+	</array>
 </dict>
 </plist>
