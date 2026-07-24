@@ -13,7 +13,11 @@ struct OptionButton: View {
     let icon: String
     let isSelected: Bool
     let action: () -> Void
-    
+
+    private var seed: UInt64 {
+        UInt64(title.unicodeScalars.reduce(0) { $0 + $1.value })
+    }
+
     var body: some View {
             Button {
                 action()
@@ -23,9 +27,8 @@ struct OptionButton: View {
                     .frame(maxWidth: .infinity)
                     .background(isSelected ? Color.lumiereCoral : Color.lumiereCream)
                     .foregroundStyle(isSelected ? Color.lumiereCream : Color.lumiereInk)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
+                        RoughRectangle(seed: seed)
                             .stroke(Color.lumiereInk, lineWidth: 3)
                     )
             }
