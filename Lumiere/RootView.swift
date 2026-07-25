@@ -22,6 +22,7 @@ struct RootView: View {
                     WatchlistView()
                         .tabItem { Label("Watchlist", systemImage: "bookmark") }
                 }
+                .tint(Color.lumiereCoral)
             }
         }
         .task {
