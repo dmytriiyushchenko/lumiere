@@ -16,15 +16,14 @@ enum Runtime: CaseIterable {
         switch self {
         case .short: "Under 1.5h"
         case .medium: "Under 2h"
-        case .long: "Any"
+        case .long: "Any length"
         }
     }
-    
-    var icon: String {
+    var subtitle: String {
         switch self {
-        case .short: "hare.fill"
-        case .medium: "clock.fill"
-        case .long: "tortoise.fill"
+        case .short: "Quick watch"
+        case .medium: "Standard runtime"
+        case .long: "I've got all night"
         }
     }
     var maxMinutes: Int? {

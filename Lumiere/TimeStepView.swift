@@ -14,20 +14,24 @@ struct TimeStepView: View {
         ZStack {
             Color.lumiereCream
                 .ignoresSafeArea()
-            VStack(spacing: 16) {
-                Text("How much time?")
-                    .font(.custom("PermanentMarker-Regular", size: 34))
-                    .foregroundStyle(Color.lumiereInk)
+            VStack(spacing: Spacing.option) {
+                WizardHeader(
+                    title: "How much time?",
+                    subtitle: "Pick one — we'll take it from here")
+                Spacer()
                 ForEach(Runtime.allCases, id: \.self) { runtime in
                     OptionButton(
                         title: runtime.title,
-                        icon: runtime.icon,
+                        subtitle: runtime.subtitle,
                         isSelected: false,
                         action: { onSelect(runtime) }
                     )
                 }
+                Spacer()
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, Spacing.screenEdge)
+            .frame(maxHeight: .infinity)
+            .padding(.top, 16)
         }
     }
 }
