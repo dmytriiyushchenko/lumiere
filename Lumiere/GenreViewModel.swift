@@ -15,7 +15,7 @@ class GenreViewModel {
     
     init(client: APIClient = TMDBClient()) {
         self.client = client
-    }
+    } 
     func loadGenres() async {
         state = .loading
         do {

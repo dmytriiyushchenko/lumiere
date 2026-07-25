@@ -12,3 +12,8 @@ extension Color {
     static let lumiereInk = Color(red: 26/255, green: 23/255, blue: 20/255)
     static let lumiereCoral = Color(red: 234/255, green: 78/255, blue: 61/255)
 }
+
+enum Spacing {
+    static let screenEdge: CGFloat = 24
+    static let option: CGFloat = 12
+}

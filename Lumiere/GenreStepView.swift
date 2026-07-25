@@ -10,6 +10,10 @@ import SwiftUI
 struct GenreStepView: View {
     let onSelect: (Genre) -> Void
     @State private var genreVM = GenreViewModel()
+    private let columns = [
+        GridItem(.flexible(), spacing: Spacing.option),
+        GridItem(.flexible(), spacing: Spacing.option)
+    ]
 
     var body: some View {
         ZStack {
@@ -17,27 +21,29 @@ struct GenreStepView: View {
                 .ignoresSafeArea()
             ScrollView {
                 VStack(spacing: 16) {
-                    Text("What genre?")
-                        .font(.custom("PermanentMarker-Regular", size: 34))
-                        .foregroundStyle(Color.lumiereInk)
+                    WizardHeader(
+                        title: "What genre?",
+                        subtitle: "Tap one to continue")
                     switch genreVM.state {
                     case .idle, .loading:
                         ProgressView()
                     case .loaded:
-                        ForEach(genreVM.genres, id: \.id) { genre in
-                            OptionButton(
-                                title: genre.name,
-                                icon: "film",
-                                isSelected: false,
-                                action: { onSelect(genre) }
-                            )
+                        LazyVGrid(columns: columns, spacing: Spacing.option) {
+                            ForEach(genreVM.genres, id: \.id) { genre in
+                                OptionButton(
+                                    title: genre.name,
+                                    subtitle: nil,
+                                    isSelected: false,
+                                    action: { onSelect(genre) }
+                                )
+                            }
                         }
                     case .error(let message):
                         Text(message)
                             .foregroundStyle(.red)
                     }
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, Spacing.screenEdge)
             }
         }
         .task { await genreVM.loadGenres() }
