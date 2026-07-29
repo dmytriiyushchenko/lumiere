@@ -14,23 +14,67 @@ struct DetailView: View {
     let movieID: Int
     
     var body: some View {
-        ScrollView {
-            if let movie = detailVM.movie {          
-                VStack {
-                    AsyncImage(url: movie.posterURL)
-                    Text(movie.title)
-                    Text("⭐️ \(movie.voteAverage, specifier: "%.1f")")
-                    Text(movie.overview)
-                        .padding()
-                    if let key = detailVM.trailerKey {
-                        YouTubePlayerView(YouTubePlayer(source: .video(id: key)))
-                            .frame(height: 220)
-                        Link("Watch on YouTube",
-                             destination: URL(string: "https://www.youtube.com/watch?v=\(key)")!)
+        ZStack {
+            Color.lumiereCream
+                .ignoresSafeArea()
+            ScrollView {
+                if let movie = detailVM.movie {
+                    VStack(alignment: .leading, spacing: 16) {
+                        AsyncImage(url: movie.posterURL) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .overlay(RoughRectangle().stroke(Color.lumiereInk, lineWidth: 3))
+                        } placeholder: {
+                            Color.gray.opacity(0.2)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: 420)
+                        
+                        Text(movie.title)
+                            .font(.custom("PermanentMarker-Regular", size: 28))
+                            .foregroundStyle(Color.lumiereInk)
+                        
+                        HStack(spacing: 8) {
+                            Text(movie.year)
+                            if let runtimeText = movie.runtimeText {
+                                Text("·")
+                                Text(runtimeText)
+                            }
+                            Text("·")
+                            StarRating(rating: movie.voteAverage / 2)
+                            Text("\(movie.voteAverage / 2, specifier: "%.1f")")
+                        }
+                        .font(.custom("PatrickHand-Regular", size: 16))
+                        .foregroundStyle(Color.lumiereInk)
+                        
+                        Text(movie.overview)
+                            .font(.custom("PatrickHand-Regular", size: 18))
+                            .foregroundStyle(Color.lumiereInk)
+                        
+                        if let key = detailVM.trailerKey {
+                            YouTubePlayerView(YouTubePlayer(source: .video(id: key)))
+                                .frame(height: 220)
+                                .overlay(RoughRectangle(seed: 42).stroke(Color.lumiereInk, lineWidth: 3))
+                            
+                            Link(destination: URL(string: "https://www.youtube.com/watch?v=\(key)")!) {
+                                Text("Watch on YouTube")
+                                    .font(.custom("PatrickHand-Regular", size: 18))
+                                    .foregroundStyle(Color.lumiereInk)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .overlay(RoughRectangle(seed: 13).stroke(Color.lumiereInk, lineWidth: 3))
+                            }
+                        }
                     }
+                    .padding(.horizontal, Spacing.screenEdge)
+                } else if case .error(let message) = detailVM.state {
+                    Text(message)
+                        .font(.custom("PatrickHand-Regular", size: 18))
+                        .foregroundStyle(.red)
+                        .padding()
+                } else {
+                    ProgressView()
                 }
-            } else {
-                ProgressView()
             }
         }
         .task {
