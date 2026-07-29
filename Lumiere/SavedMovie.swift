@@ -13,14 +13,19 @@ final class SavedMovie {
     var id: Int
     var title: String
     var posterPath: String?
+    var year: String
+    var voteAverage: Double
+    
     var posterURL: URL? {
         guard let posterPath else { return nil }
         return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
     }
     
-    init(id: Int, title: String, posterPath: String? = nil) {
+    init(id: Int, title: String, posterPath: String? = nil, year: String, voteAverage: Double) {
         self.id = id
         self.title = title
         self.posterPath = posterPath
+        self.year = year
+        self.voteAverage = voteAverage
     }
 }
