@@ -63,7 +63,7 @@ struct ResultView: View {
                             Button {
                                 let alreadySaved = savedMovies.contains { $0.id == movie.id }
                                 guard !alreadySaved else { return }
-                                let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath)
+                                let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath, year: movie.year, voteAverage: movie.voteAverage)
                                 modelContext.insert(saved)
                                 modelContext.insert(SeenMovie(id: movie.id))
                             } label: {
