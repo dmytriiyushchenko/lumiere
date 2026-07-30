@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SeededGenerator: RandomNumberGenerator {
+nonisolated struct SeededGenerator: RandomNumberGenerator {
     var state: UInt64
     init(seed: UInt64) { self.state = seed }
     mutating func next() -> UInt64 {

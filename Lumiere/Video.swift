@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct VideoResponse: Codable {
+nonisolated struct VideoResponse: Codable {
     let results: [Video]
 }
 
-struct Video: Codable {
+nonisolated struct Video: Codable {
     let key: String
     let site: String
     let type: String

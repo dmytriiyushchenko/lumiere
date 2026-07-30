@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Secrets {
+nonisolated enum Secrets {
     static var tmdbToken: String {
         Bundle.main.object(forInfoDictionaryKey: "TMDB_TOKEN") as? String ?? ""
     }

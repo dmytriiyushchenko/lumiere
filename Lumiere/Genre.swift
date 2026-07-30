@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Genre: Codable, Equatable {
+nonisolated struct Genre: Codable, Equatable {
     let id: Int
     let name: String
 }
