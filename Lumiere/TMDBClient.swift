@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TMDBClient: APIClient {
+nonisolated final class TMDBClient: APIClient {
     func fetch<T: Decodable>(from url: URL) async throws -> T {
         
         var request = URLRequest(url: url)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Codable, Hashable {
+nonisolated struct Movie: Codable, Hashable {
     let id: Int
     let title: String
     let overview: String
