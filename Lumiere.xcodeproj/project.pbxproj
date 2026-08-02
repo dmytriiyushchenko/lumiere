@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15844ADB301FD04E00032DA3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 15844ADA301FD04E00032DA3 /* Kingfisher */; };
 		15C2D9CD300EBFAF00827326 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15C2D9CC300EBFAF00827326 /* YouTubePlayerKit */; };
 		15C389E02FFC552A007C7EE6 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 15C389DF2FFC552A007C7EE6 /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15844ADB301FD04E00032DA3 /* Kingfisher in Frameworks */,
 				15C2D9CD300EBFAF00827326 /* YouTubePlayerKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +145,7 @@
 			name = Lumiere;
 			packageProductDependencies = (
 				15C2D9CC300EBFAF00827326 /* YouTubePlayerKit */,
+				15844ADA301FD04E00032DA3 /* Kingfisher */,
 			);
 			productName = Lumiere;
 			productReference = 158A10402FD0EE160099D4C6 /* Lumiere.app */;
@@ -178,6 +181,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				15C2D9CA300EBE0F00827326 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				15844AD9301FD04E00032DA3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 158A10412FD0EE160099D4C6 /* Products */;
@@ -502,6 +506,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		15844AD9301FD04E00032DA3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.11.0;
+			};
+		};
 		15C2D9CA300EBE0F00827326 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit";
@@ -513,6 +525,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		15844ADA301FD04E00032DA3 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15844AD9301FD04E00032DA3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		15C2D9CC300EBFAF00827326 /* YouTubePlayerKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 15C2D9CA300EBE0F00827326 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Kingfisher
 
 struct ResultView: View {
     let suggestionVM: SuggestionViewModel
@@ -22,15 +23,17 @@ struct ResultView: View {
                     if let movie = suggestionVM.currentMovie {
                         NavigationLink(value: movie.id) {
                             VStack(spacing: 12) {
-                                AsyncImage(url: movie.posterURL) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .overlay(RoughRectangle().stroke(Color.lumiereInk, lineWidth: 3))
-                                } placeholder: {
-                                    Color.gray.opacity(0.2)
-                                }
-                                .frame(maxWidth: .infinity, maxHeight: 400)
+                                KFImage(movie.posterURL)
+                                    .placeholder {
+                                        Color.gray.opacity(0.2)
+                                            .aspectRatio(2.0 / 3.0, contentMode: .fit)
+                                    }
+                                    .resizable()
+                                    .fade(duration:  0.2)
+                                    .scaledToFit()
+                                    .overlay(RoughRectangle().stroke(Color.lumiereInk, lineWidth: 3))
+                                    .frame(maxWidth: .infinity, maxHeight: 400)
+                                    
                                 
                                 Text(movie.title)
                                     .font(.custom("PermanentMarker-Regular", size: 22))

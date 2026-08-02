@@ -7,6 +7,7 @@
 
 import SwiftUI
 import YouTubePlayerKit
+import Kingfisher
 
 struct DetailView: View {
     @State private var detailVM = DetailViewModel()
@@ -20,16 +21,17 @@ struct DetailView: View {
             ScrollView {
                 if let movie = detailVM.movie {
                     VStack(alignment: .leading, spacing: 16) {
-                        AsyncImage(url: movie.posterURL) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .overlay(RoughRectangle().stroke(Color.lumiereInk, lineWidth: 3))
-                        } placeholder: {
-                            Color.gray.opacity(0.2)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: 420)
-                        
+                        KFImage(movie.posterURL)
+                            .placeholder {
+                                Color.gray.opacity(0.2)
+                                    .aspectRatio(2.0 / 3.0, contentMode: .fit)
+                            }
+                            .resizable()
+                            .fade(duration: 0.2)
+                            .scaledToFit()
+                            .overlay(RoughRectangle().stroke(Color.lumiereInk, lineWidth: 3))
+                            .frame(maxWidth: .infinity, maxHeight: 420)
+
                         Text(movie.title)
                             .font(.custom("PermanentMarker-Regular", size: 28))
                             .foregroundStyle(Color.lumiereInk)

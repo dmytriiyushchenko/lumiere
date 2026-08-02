@@ -7,10 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import Kingfisher
 
 struct WatchlistView: View {
 
     @Query private var savedMovies: [SavedMovie]
+    @Environment(\.displayScale) private var displayScale
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
@@ -29,14 +31,15 @@ struct WatchlistView: View {
                         ForEach(savedMovies) { movie in
                             NavigationLink(value: movie.id) {
                                 HStack(spacing: 12) {
-                                    AsyncImage(url: movie.posterURL) { image in
-                                        image.resizable().scaledToFill()
-                                    } placeholder: {
-                                        Color.gray.opacity(0.2)
-                                    }
-                                    .frame(width: 50, height: 75)
-                                    .clipped()
-                                    .overlay(RoughRectangle(seed: UInt64(movie.id)).stroke(Color.lumiereInk, lineWidth: 2))
+                                    KFImage(movie.posterURL)
+                                        .placeholder { Color.gray.opacity(0.2) }
+                                        .downsampling(size: CGSize(width: 50, height: 75))
+                                        .scaleFactor(displayScale)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 75)
+                                        .clipped()
+                                        .overlay(RoughRectangle(seed: UInt64(movie.id)).stroke(Color.lumiereInk, lineWidth: 2))
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(movie.title)
