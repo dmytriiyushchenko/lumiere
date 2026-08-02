@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 @Observable
-class GenreViewModel {
+final class GenreViewModel {
     var genres: [Genre] = []
     var state: LoadingState = .idle
     private let client: APIClient
