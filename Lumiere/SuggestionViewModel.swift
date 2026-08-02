@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 @Observable
-class SuggestionViewModel {
+final class SuggestionViewModel {
     var movies: [Movie] = []
     
     var currentIndex = 0
