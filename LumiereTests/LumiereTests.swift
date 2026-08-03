@@ -68,7 +68,23 @@ struct LumiereTests {
                 let profile = MoodProfile(energy: energy, intent: intent)
                 
                 #expect(!profile.genreIDs.isEmpty)
-                
+
+            }
+        }
+    }
+
+    // Regression: two intents at the same energy level once shared `family`
+    // and `music`, so "switch off" and "feel something" returned the same
+    // blockbusters — popular films carry several genre tags at once.
+    @Test func intentsAtSameEnergyShareNoGenres() {
+        for energy in Energy.allCases {
+            let sets = Intent.allCases.map {
+                Set(MoodProfile(energy: energy, intent: $0).genreIDs)
+            }
+            for i in sets.indices {
+                for j in sets.indices where j > i {
+                    #expect(sets[i].intersection(sets[j]).isEmpty)
+                }
             }
         }
     }

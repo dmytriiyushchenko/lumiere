@@ -44,10 +44,18 @@ final class SuggestionViewModel {
         self.excludedGenreIDs = excludedGenreIDs
         self.maxMinutes = maxMinutes
         self.seenIDs = seenIDs
-        currentPage = 1
+        // Page 1 of a popularity-sorted pool is always the same blockbusters,
+        // whatever the filters. Starting deeper uses the pool we actually asked for.
+        currentPage = Int.random(in: 1...20)
         currentIndex = 0
         movies = []
         await fetchPage()
+
+        // A narrow profile may have fewer pages than the random start — fall back.
+        if movies.isEmpty && currentPage > 1 {
+            currentPage = 1
+            await fetchPage()
+        }
     }
     private var isLoadingNextPage = false
     
@@ -79,6 +87,8 @@ final class SuggestionViewModel {
         if let maxMinutes = maxMinutes {
             queryItems.append(URLQueryItem(name: "with_runtime.lte", value: "\(maxMinutes)"))
         }
+        // Going deeper into the pool surfaces films with almost no ratings — filter them out.
+        queryItems.append(URLQueryItem(name: "vote_count.gte", value: "100"))
         queryItems.append(URLQueryItem(name: "page", value: "\(currentPage)"))
         components.queryItems = queryItems
         let url = components.url!
