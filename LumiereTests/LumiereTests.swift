@@ -61,4 +61,15 @@ struct LumiereTests {
         #expect(result.id == 28)
         #expect(result.name == "Action")
     }
+    
+    @Test func everyMoodHasGenres() {
+        for energy in Energy.allCases {
+            for intent in Intent.allCases {
+                let profile = MoodProfile(energy: energy, intent: intent)
+                
+                #expect(!profile.genreIDs.isEmpty)
+                
+            }
+        }
+    }
 }
