@@ -21,6 +21,7 @@ final class SuggestionViewModel {
     }
     
     var currentPage = 1
+    private var totalPages = 1
     private var genreID: Int?
     private var maxMinutes: Int?
     private var seenIDs: [Int] = []
@@ -47,16 +48,20 @@ final class SuggestionViewModel {
         await fetchPage()
     }
     private var isLoadingNextPage = false
-
+    
     func loadNextPage() async {
-        guard !isLoadingNextPage else { return }  
+        guard !isLoadingNextPage else { return }
+        guard currentPage < totalPages else { return }
         isLoadingNextPage = true
         currentPage += 1
-        await fetchPage()
+        await fetchPage(isBackground: true)
         isLoadingNextPage = false
     }
-    private func fetchPage() async {
-        state = .loading
+    
+    private func fetchPage(isBackground:Bool = false) async {
+        if !isBackground {
+            state = .loading
+        }
         var components = URLComponents(string:"https://api.themoviedb.org/3/discover/movie")!
         var queryItems: [URLQueryItem] = []
         if let genreID = genreID {
@@ -71,9 +76,16 @@ final class SuggestionViewModel {
         do {
             let response: MovieResponse = try await client.fetch(from: url)
             movies += response.results.filter { !seenIDs.contains($0.id) }
-            state = .loaded
+            
+            totalPages = response.totalPages
+            
+            if !isBackground {
+                state = .loaded
+            }
         } catch {
-            state = .error(error.localizedDescription)
+            if !isBackground {
+                state = .error(error.localizedDescription)
+            }
         }
     }
 }
