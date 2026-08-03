@@ -38,6 +38,7 @@ struct ResultView: View {
                                 Text(movie.title)
                                     .font(.custom("PermanentMarker-Regular", size: 22))
                                     .foregroundStyle(Color.lumiereInk)
+                                    .lineLimit(2, reservesSpace: true)
                                 
                                 HStack(spacing: 6) {
                                     StarRating(rating: movie.voteAverage / 2)

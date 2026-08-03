@@ -35,6 +35,7 @@ struct DetailView: View {
                         Text(movie.title)
                             .font(.custom("PermanentMarker-Regular", size: 28))
                             .foregroundStyle(Color.lumiereInk)
+                            .lineLimit(2, reservesSpace: true)
                         
                         HStack(spacing: 8) {
                             Text(movie.year)
