@@ -66,6 +66,7 @@ struct ResultView: View {
                             HStack(spacing: Spacing.option) {
                                 Button {
                                     modelContext.insert(SeenMovie(id: movie.id))
+                                    suggestionVM.markSeen(movie.id)
                                     suggestionVM.showNext()
                                 } label: {
                                     Text("Another one")
@@ -84,6 +85,7 @@ struct ResultView: View {
                                     let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath, year: movie.year, voteAverage: movie.voteAverage)
                                     modelContext.insert(saved)
                                     modelContext.insert(SeenMovie(id: movie.id))
+                                    suggestionVM.markSeen(movie.id)
                                 } label: {
                                     Text("Save")
                                         .font(.custom("PatrickHand-Regular", size: 20))

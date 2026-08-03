@@ -25,9 +25,16 @@ final class SuggestionViewModel {
     private var genreIDs: [Int] = []
     private var excludedGenreIDs: [Int] = []
     private var maxMinutes: Int?
-    private var seenIDs: [Int] = []
-    
-    
+    private var seenIDs: Set<Int> = []
+
+    /// Keeps the filter in sync while the user is still swiping. Without this the
+    /// pool would be filtered against the snapshot taken at loadMovies time, and a
+    /// film skipped a minute ago could come back on the next page of the same session.
+    func markSeen(_ id: Int) {
+        seenIDs.insert(id)
+    }
+
+
     var currentMovie: Movie? {
         movies.indices.contains(currentIndex) ? movies[currentIndex] : nil
     }
@@ -43,7 +50,7 @@ final class SuggestionViewModel {
         self.genreIDs = genreIDs
         self.excludedGenreIDs = excludedGenreIDs
         self.maxMinutes = maxMinutes
-        self.seenIDs = seenIDs
+        self.seenIDs = Set(seenIDs)
         // Page 1 of a popularity-sorted pool is always the same blockbusters,
         // whatever the filters. Starting deeper uses the pool we actually asked for.
         currentPage = Int.random(in: 1...20)

@@ -12,6 +12,7 @@ import Kingfisher
 struct WatchlistView: View {
 
     @Query private var savedMovies: [SavedMovie]
+    @Query private var seenMovies: [SeenMovie]
     @Environment(\.displayScale) private var displayScale
     @Environment(\.modelContext) private var modelContext
 
@@ -61,7 +62,13 @@ struct WatchlistView: View {
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
-                                modelContext.delete(savedMovies[index])
+                                let movie = savedMovies[index]
+                                // Removing only the saved copy would leave the film
+                                // marked as seen — it would never be suggested again.
+                                for seen in seenMovies where seen.id == movie.id {
+                                    modelContext.delete(seen)
+                                }
+                                modelContext.delete(movie)
                             }
                         }
                     }
