@@ -22,7 +22,8 @@ final class SuggestionViewModel {
     
     var currentPage = 1
     private var totalPages = 1
-    private var genreID: Int?
+    private var genreIDs: [Int] = []
+    private var excludedGenreIDs: [Int] = []
     private var maxMinutes: Int?
     private var seenIDs: [Int] = []
     
@@ -38,8 +39,9 @@ final class SuggestionViewModel {
     init (client: APIClient = TMDBClient()) {
         self.client = client
     }
-    func loadMovies(genreID: Int?, maxMinutes: Int?, seenIDs:[Int]) async {
-        self.genreID = genreID
+    func loadMovies(genreIDs: [Int], excludedGenreIDs: [Int], maxMinutes: Int?, seenIDs: [Int]) async {
+        self.genreIDs = genreIDs
+        self.excludedGenreIDs = excludedGenreIDs
         self.maxMinutes = maxMinutes
         self.seenIDs = seenIDs
         currentPage = 1
@@ -64,8 +66,15 @@ final class SuggestionViewModel {
         }
         var components = URLComponents(string:"https://api.themoviedb.org/3/discover/movie")!
         var queryItems: [URLQueryItem] = []
-        if let genreID = genreID {
-            queryItems.append(URLQueryItem(name: "with_genres", value: "\(genreID)"))
+        if !genreIDs.isEmpty {
+            // пайп = АБО: підійде будь-який жанр із профілю настрою
+            let value = genreIDs.map(String.init).joined(separator: "|")
+            queryItems.append(URLQueryItem(name: "with_genres", value: value))
+        }
+        if !excludedGenreIDs.isEmpty {
+            // кома = жодного з переліку
+            let value = excludedGenreIDs.map(String.init).joined(separator: ",")
+            queryItems.append(URLQueryItem(name: "without_genres", value: value))
         }
         if let maxMinutes = maxMinutes {
             queryItems.append(URLQueryItem(name: "with_runtime.lte", value: "\(maxMinutes)"))
