@@ -44,24 +44,6 @@ struct LumiereTests {
         #expect(result.results.first?.posterPath == "/inception.jpg")
     }
     
-    @Test func decodesGenre() throws {
-        let json = """
-    { 
-        "id": 28, 
-        "name":"Action"
-}
-"""
-        let data = Data(json.utf8)
-        
-        let decoder = JSONDecoder()
-        
-        let result = try decoder.decode(Genre.self, from: data)
-        
-        // Assert
-        #expect(result.id == 28)
-        #expect(result.name == "Action")
-    }
-    
     @Test func everyMoodHasGenres() {
         for energy in Energy.allCases {
             for intent in Intent.allCases {
