@@ -16,7 +16,7 @@ nonisolated struct Endpoint {
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = "/3" + path
-        
+
         if !queryItems.isEmpty {
             components.queryItems = queryItems
         }

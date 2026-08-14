@@ -15,6 +15,5 @@ nonisolated struct Video: Codable {
     let key: String
     let site: String
     let type: String
-    let name: String
 }
 

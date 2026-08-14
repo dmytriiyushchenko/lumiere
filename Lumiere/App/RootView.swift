@@ -28,7 +28,7 @@ struct RootView: View {
         .task {
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.easeInOut(duration: 0.6)) {
-                showSplash = false            
+                showSplash = false
             }
         }
     }

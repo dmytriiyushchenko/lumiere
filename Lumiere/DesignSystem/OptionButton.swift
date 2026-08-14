@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct OptionButton: View {
-    
+
     let title: String
     let subtitle: String?
     let isSelected: Bool
     let action: () -> Void
-    
+
     private var seed: UInt64 {
         UInt64(title.unicodeScalars.reduce(0) { $0 + $1.value })
     }
-    
+
     var body: some View {
         Button {
             action()

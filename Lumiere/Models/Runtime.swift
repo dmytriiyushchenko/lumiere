@@ -11,7 +11,7 @@ enum Runtime: CaseIterable {
     case short
     case medium
     case long
-    
+
     var title: String {
         switch self {
         case .short: "Under 1.5h"
