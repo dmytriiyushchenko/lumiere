@@ -11,7 +11,7 @@ import SwiftData
 @Model
 final class SeenMovie {
     var id: Int
-    
+
     init(id: Int) {
         self.id = id
     }

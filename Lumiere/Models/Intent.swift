@@ -11,15 +11,15 @@ nonisolated enum Intent: CaseIterable {
     case escape
     case feel
     case think
-    
+
     var title: String {
         switch self {
-            case .escape: "Switch off"
-            case .feel: "Feel something"
-            case .think: "Make me think"
+        case .escape: "Switch off"
+        case .feel: "Feel something"
+        case .think: "Make me think"
         }
     }
-    
+
     var subtitle: String {
         switch self {
         case .escape: "Take me somewhere else"

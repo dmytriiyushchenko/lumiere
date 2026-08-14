@@ -11,9 +11,9 @@ import Kingfisher
 
 struct DetailView: View {
     @State private var detailVM = DetailViewModel()
-    
+
     let movieID: Int
-    
+
     var body: some View {
         ZStack {
             Color.lumiereCream
@@ -36,7 +36,7 @@ struct DetailView: View {
                             .font(.custom("PermanentMarker-Regular", size: 28))
                             .foregroundStyle(Color.lumiereInk)
                             .lineLimit(2, reservesSpace: true)
-                        
+
                         HStack(spacing: 8) {
                             Text(movie.year)
                             if let runtimeText = movie.runtimeText {
@@ -49,16 +49,16 @@ struct DetailView: View {
                         }
                         .font(.custom("PatrickHand-Regular", size: 16))
                         .foregroundStyle(Color.lumiereInk)
-                        
+
                         Text(movie.overview)
                             .font(.custom("PatrickHand-Regular", size: 18))
                             .foregroundStyle(Color.lumiereInk)
-                        
+
                         if let key = detailVM.trailerKey {
                             YouTubePlayerView(YouTubePlayer(source: .video(id: key)))
                                 .frame(height: 220)
                                 .overlay(RoughRectangle(seed: 42).stroke(Color.lumiereInk, lineWidth: 3))
-                            
+
                             Link(destination: URL(string: "https://www.youtube.com/watch?v=\(key)")!) {
                                 Text("Watch on YouTube")
                                     .font(.custom("PatrickHand-Regular", size: 18))

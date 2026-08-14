@@ -11,7 +11,7 @@ import Foundation
 @Observable
 final class SuggestionViewModel {
     var movies: [Movie] = []
-    
+
     var currentIndex = 0
     func showNext() {
         currentIndex += 1
@@ -19,7 +19,7 @@ final class SuggestionViewModel {
             Task { await loadNextPage() }
         }
     }
-    
+
     var currentPage = 1
     private var totalPages = 1
     private var genreIDs: [Int] = []
@@ -38,12 +38,12 @@ final class SuggestionViewModel {
     var currentMovie: Movie? {
         movies.indices.contains(currentIndex) ? movies[currentIndex] : nil
     }
-    
-    
+
+
     var state: LoadingState = .idle
     private let client: APIClient
-    
-    init (client: APIClient = TMDBClient()) {
+
+    init(client: APIClient = TMDBClient()) {
         self.client = client
     }
     func loadMovies(genreIDs: [Int], excludedGenreIDs: [Int], maxMinutes: Int?, seenIDs: [Int]) async {
@@ -65,7 +65,7 @@ final class SuggestionViewModel {
         }
     }
     private var isLoadingNextPage = false
-    
+
     func loadNextPage() async {
         guard !isLoadingNextPage else { return }
         guard currentPage < totalPages else { return }
@@ -74,20 +74,20 @@ final class SuggestionViewModel {
         await fetchPage(isBackground: true)
         isLoadingNextPage = false
     }
-    
-    private func fetchPage(isBackground:Bool = false) async {
+
+    private func fetchPage(isBackground: Bool = false) async {
         if !isBackground {
             state = .loading
         }
-        var components = URLComponents(string:"https://api.themoviedb.org/3/discover/movie")!
+        var components = URLComponents(string: "https://api.themoviedb.org/3/discover/movie")!
         var queryItems: [URLQueryItem] = []
         if !genreIDs.isEmpty {
-            // пайп = АБО: підійде будь-який жанр із профілю настрою
+            // Pipe means OR: any genre from the mood profile is a match.
             let value = genreIDs.map(String.init).joined(separator: "|")
             queryItems.append(URLQueryItem(name: "with_genres", value: value))
         }
         if !excludedGenreIDs.isEmpty {
-            // кома = жодного з переліку
+            // Comma means AND NOT: none of the listed genres may appear.
             let value = excludedGenreIDs.map(String.init).joined(separator: ",")
             queryItems.append(URLQueryItem(name: "without_genres", value: value))
         }
@@ -102,9 +102,9 @@ final class SuggestionViewModel {
         do {
             let response: MovieResponse = try await client.fetch(from: url)
             movies += response.results.filter { !seenIDs.contains($0.id) }
-            
+
             totalPages = response.totalPages
-            
+
             if !isBackground {
                 state = .loaded
             }
