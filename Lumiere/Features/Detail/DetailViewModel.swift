@@ -20,11 +20,8 @@ final class DetailViewModel {
     }
 
     func loadTrailer(movieID: Int) async {
-
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieID)/videos")!
-
         do {
-            let response: VideoResponse = try await client.fetch(from: url)
+            let response: VideoResponse = try await client.fetch(from: .videos(movieID: movieID))
             trailerKey = response.results.first(where: { $0.type == "Trailer" && $0.site == "YouTube" })?.key
         } catch {
         }
@@ -33,10 +30,8 @@ final class DetailViewModel {
     func loadMovie(movieID: Int) async {
         state = .loading
 
-        let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieID)")!
-
         do {
-            let movie: Movie = try await client.fetch(from: url)
+            let movie: Movie = try await client.fetch(from: .movie(id: movieID))
             self.movie = movie
             state = .loaded
         } catch {

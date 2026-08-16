@@ -8,7 +8,10 @@
 import Foundation
 
 nonisolated final class TMDBClient: APIClient {
-    func fetch<T: Decodable>(from url: URL) async throws -> T {
+    func fetch<T: Decodable>(from endpoint: Endpoint) async throws -> T {
+        guard let url = endpoint.url else {
+            throw NetworkError.invalidURL
+        }
 
         var request = URLRequest(url: url)
         request.setValue("Bearer \(Secrets.tmdbToken)", forHTTPHeaderField: "Authorization")

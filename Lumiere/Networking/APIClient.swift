@@ -8,5 +8,5 @@
 import Foundation
 
 protocol APIClient {
-    nonisolated func fetch<T: Decodable>(from url: URL) async throws -> T
+    nonisolated func fetch<T: Decodable>(from endpoint: Endpoint) async throws -> T
 }

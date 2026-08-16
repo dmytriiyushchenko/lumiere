@@ -79,28 +79,12 @@ final class SuggestionViewModel {
         if !isBackground {
             state = .loading
         }
-        var components = URLComponents(string: "https://api.themoviedb.org/3/discover/movie")!
-        var queryItems: [URLQueryItem] = []
-        if !genreIDs.isEmpty {
-            // Pipe means OR: any genre from the mood profile is a match.
-            let value = genreIDs.map(String.init).joined(separator: "|")
-            queryItems.append(URLQueryItem(name: "with_genres", value: value))
-        }
-        if !excludedGenreIDs.isEmpty {
-            // Comma means AND NOT: none of the listed genres may appear.
-            let value = excludedGenreIDs.map(String.init).joined(separator: ",")
-            queryItems.append(URLQueryItem(name: "without_genres", value: value))
-        }
-        if let maxMinutes = maxMinutes {
-            queryItems.append(URLQueryItem(name: "with_runtime.lte", value: "\(maxMinutes)"))
-        }
-        // Going deeper into the pool surfaces films with almost no ratings — filter them out.
-        queryItems.append(URLQueryItem(name: "vote_count.gte", value: "100"))
-        queryItems.append(URLQueryItem(name: "page", value: "\(currentPage)"))
-        components.queryItems = queryItems
-        let url = components.url!
+        let endpoint = Endpoint.discover(genreIDs: genreIDs,
+                                         excludedGenreIDs: excludedGenreIDs,
+                                         maxMinutes: maxMinutes,
+                                         page: currentPage)
         do {
-            let response: MovieResponse = try await client.fetch(from: url)
+            let response: MovieResponse = try await client.fetch(from: endpoint)
             movies += response.results.filter { !seenIDs.contains($0.id) }
 
             totalPages = response.totalPages
