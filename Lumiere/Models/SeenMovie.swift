@@ -10,7 +10,9 @@ import SwiftData
 
 @Model
 final class SeenMovie {
-    var id: Int
+    // Both "Another one" and "Save" mark a film as seen, so the same id can be
+    // inserted twice in one session.
+    @Attribute(.unique) var id: Int
 
     init(id: Int) {
         self.id = id

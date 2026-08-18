@@ -10,7 +10,9 @@ import SwiftData
 
 @Model
 final class SavedMovie {
-    var id: Int
+    // The TMDB id identifies the film, so inserting the same one twice should
+    // update the row rather than add a second copy of it.
+    @Attribute(.unique) var id: Int
     var title: String
     var posterPath: String?
     var year: String

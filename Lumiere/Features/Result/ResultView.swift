@@ -12,7 +12,6 @@ import Kingfisher
 struct ResultView: View {
     let suggestionVM: SuggestionViewModel
     @Environment(\.modelContext) private var modelContext
-    @Query private var savedMovies: [SavedMovie]
 
     var body: some View {
         ZStack {
@@ -80,8 +79,9 @@ struct ResultView: View {
                                 .buttonStyle(.plain)
 
                                 Button {
-                                    let alreadySaved = savedMovies.contains { $0.id == movie.id }
-                                    guard !alreadySaved else { return }
+                                    // `id` is unique on both models, so a repeated
+                                    // insert updates the existing row instead of
+                                    // duplicating it.
                                     let saved = SavedMovie(id: movie.id, title: movie.title, posterPath: movie.posterPath, year: movie.year, voteAverage: movie.voteAverage)
                                     modelContext.insert(saved)
                                     modelContext.insert(SeenMovie(id: movie.id))
