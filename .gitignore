@@ -5,6 +5,7 @@ DerivedData/
 xcuserdata/
 *.xcscmblueprint
 *.xccheckout
+*.xcarchive
 
 # === macOS ===
 .DS_Store
@@ -13,10 +14,22 @@ xcuserdata/
 .build/
 .swiftpm/
 
-# === Залежності (на майбутнє) ===
+# === Dependencies (for later) ===
 Pods/
 Carthage/Build/
 
-# === Секрети: TMDB-ключ НЕ комітимо в публічний репозиторій! ===
+# === Secrets: the TMDB token never goes into a public repository ===
 Secrets.xcconfig
 *.env
+
+# === Local tooling and notes ===
+# Assistant and editor configuration, working notes, and generated audit
+# dumps. These describe how the project is worked on, not the project
+# itself, so they stay on the machine and out of the public history.
+.claude/
+CLAUDE.md
+TASKS.md
+BACKLOG.md
+lumiere-audit.sh
+lumiere-audit.txt
+lumiere-source.txt
