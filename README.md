@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/dmytriiyushchenko/lumiere/actions/workflows/ci.yml/badge.svg)](https://github.com/dmytriiyushchenko/lumiere/actions/workflows/ci.yml)
 
+An iOS app built with SwiftUI, SwiftData and the TMDB API.
+
 I built this because of a habit I have. I open a streaming app around nine, scroll until eleven, and go to bed without watching anything. The problem was never that there's nothing on. It's that there's everything.
 
 Lumière asks three questions and gives you one film. How much time you have, how your energy is, what you want tonight. Take it, save it, or ask for another one.
@@ -56,6 +58,10 @@ Design system  Theme (palette and spacing), OptionButton, StarRating,
 
 `PickerView` drives the three steps through a `NavigationPath`. Each step is a dumb screen: it reports what you tapped and has no idea what comes next.
 
+If you only want to look at a couple of files: [`MoodProfile`](Lumiere/Models/MoodProfile.swift) is the nine-way mood matrix, [`Endpoint`](Lumiere/Networking/Endpoint.swift) builds every TMDB URL, [`RoughRectangle`](Lumiere/DesignSystem/RoughRectangle.swift) draws the crooked borders, and [`LumiereApp`](Lumiere/App/LumiereApp.swift) is where the database is opened, or rebuilt when it cannot be.
+
+Six tests cover decoding and the mood rules. GitHub Actions builds the app and runs them on every push and every pull request, on a clean machine and without an API token.
+
 Built with Swift 6, SwiftUI and SwiftData, `async`/`await` over `URLSession`, the TMDB API, [Kingfisher](https://github.com/onevcat/Kingfisher) for posters, [YouTubePlayerKit](https://github.com/SvenTiigi/YouTubePlayerKit) for trailers, and Swift Testing for the tests.
 
 ## Things that went wrong first
@@ -65,6 +71,8 @@ Built with Swift 6, SwiftUI and SwiftData, `async`/`await` over `URLSession`, th
 **Runtime.** `/discover` doesn't return a runtime, `/movie/{id}` does. Same `Movie` type for both, so `runtime` is optional. Making it non-optional would have broken decoding of every single discover response, which is exactly what happened before I understood why.
 
 **Empty strings.** TMDB will happily send `"release_date": ""`. An empty string decodes perfectly, and then draws nothing under the title. Now the model treats a missing key and an empty value as the same thing, and there's a test with three films that says so.
+
+**A film saved twice.** Saving a film checked a list on screen first, which felt like enough until an old database turned up with the same film in it twice. The check now lives on the model as a unique id, where the database enforces it instead of the button. Old stores that already broke the rule cannot be migrated, so the app rebuilds them rather than refusing to start.
 
 **URLs.** Query strings used to be glued together by hand in three different files, each ending in a force-unwrapped `URL(string:)`. They all live in `Endpoint` now. `TMDBClient` unwraps the optional once and throws instead of crashing, and everything I know about someone else's API sits in one file.
 
@@ -90,6 +98,10 @@ xcodebuild test -scheme Lumiere \
 All six screens work and the app runs on a real phone. It isn't on the App Store yet.
 
 Still on the list: a dark theme, custom fonts that scale with Dynamic Type, some animation for the crane while it's loading, and a field where you type what you feel like watching in your own words and let a model turn that into a query.
+
+## Who wrote this
+
+Dmytrii Yushchenko, iOS developer in Paris. Two apps on the App Store, and this one next. I'm looking for a junior iOS position — the fastest way to reach me is through [my GitHub profile](https://github.com/dmytriiyushchenko).
 
 ## License
 
