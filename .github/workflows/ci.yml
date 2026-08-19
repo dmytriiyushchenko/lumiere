@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: xcodebuild -version
+
+      # The real TMDB token is not in the repository. Tests decode bundled
+      # fixtures and never reach the network, so a placeholder is enough to
+      # satisfy the build setting that Info.plist reads at runtime.
+      - name: Write a placeholder Secrets.xcconfig
+        run: echo "TMDB_TOKEN = ci_placeholder_token" > Secrets.xcconfig
+
+      # Device names change between runner images, so the destination is
+      # resolved at run time instead of being hardcoded.
+      - name: Pick a simulator
+        id: simulator
+        run: |
+          udid=$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+
+          runtimes = json.load(sys.stdin)["devices"]
+
+          def version(runtime):
+              digits = runtime.rsplit(".", 1)[-1].split("-")[1:]
+              return [int(d) for d in digits]
+
+          for runtime in sorted((r for r in runtimes if "iOS" in r), key=version, reverse=True):
+              iphones = [d for d in runtimes[runtime] if d["name"].startswith("iPhone")]
+              if iphones:
+                  print(iphones[-1]["udid"])
+                  break
+          ')
+          test -n "$udid" || { echo "No iOS simulator on this runner"; exit 1; }
+          xcrun simctl list devices | grep "$udid"
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -scheme Lumiere \
+            -destination "id=${{ steps.simulator.outputs.udid }}" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults.xcresult
