@@ -8,7 +8,10 @@ on:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Superseding a pull request run is fine: only the newest commit matters.
+  # Runs on main are never cancelled. The badge reports the last completed run,
+  # and a cancelled run makes it read "failing" even though nothing failed.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
