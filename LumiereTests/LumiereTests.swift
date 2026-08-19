@@ -139,4 +139,31 @@ struct LumiereTests {
             }
         }
     }
+
+    // Regression: adding @Attribute(.unique) to `id` made an existing store
+    // impossible to migrate, because one film had been saved twice. The store
+    // is rebuilt on that failure, and a rebuild that leaves the write-ahead log
+    // behind hands the new database a journal for a database that is gone.
+    @Test func removesTheStoreWithItsSidecarFiles() throws {
+        let directory = URL.temporaryDirectory.appending(path: UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let store = directory.appending(path: "default.store")
+        let files = [store,
+                     directory.appending(path: "default.store-wal"),
+                     directory.appending(path: "default.store-shm"),
+                     directory.appending(path: "unrelated.txt")]
+        for file in files {
+            try Data().write(to: file)
+        }
+
+        removeStore(at: store)
+
+        #expect(!FileManager.default.fileExists(atPath: files[0].path()))
+        #expect(!FileManager.default.fileExists(atPath: files[1].path()))
+        #expect(!FileManager.default.fileExists(atPath: files[2].path()))
+        // Everything else in the directory is none of its business.
+        #expect(FileManager.default.fileExists(atPath: files[3].path()))
+    }
 }
