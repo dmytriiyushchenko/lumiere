@@ -4,6 +4,10 @@
 
 An iOS app built with SwiftUI, SwiftData and the TMDB API.
 
+<p align="center">
+  <img src="docs/demo.gif" width="300" alt="Three questions, then one film: the app asks about time, energy and intent, offers a film, swaps it for another, and keeps the one you save.">
+</p>
+
 I built this because of a habit I have. I open a streaming app around nine, scroll until eleven, and go to bed without watching anything. The problem was never that there's nothing on. It's that there's everything.
 
 Lumière asks three questions and gives you one film. How much time you have, how your energy is, what you want tonight. Take it, save it, or ask for another one.
