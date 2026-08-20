@@ -105,7 +105,7 @@ Still on the list: a dark theme, custom fonts that scale with Dynamic Type, some
 
 ## Who wrote this
 
-Dmytrii Yushchenko, iOS developer in Paris. Two apps on the App Store, and this one next. I'm looking for a junior iOS position — the fastest way to reach me is through [my GitHub profile](https://github.com/dmytriiyushchenko).
+Dmytrii Yushchenko, iOS developer in Paris. Seven apps on the App Store, and this one next. I'm looking for a junior iOS position — the fastest way to reach me is through [my GitHub profile](https://github.com/dmytriiyushchenko).
 
 ## License
 
